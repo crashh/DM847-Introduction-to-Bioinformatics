@@ -1,0 +1,39 @@
+
+2.
+DBMS' avoid problems of keeping redundant information around, inconsitant data,
+data types and concurrent access.
+
+A modern version control system, such as git or mercuiral, has all of those 
+advantages and the advantage that it doesn't require a network connection to 
+manipulate or extract any data.
+
+3.
+
+GENES:
+	id : integer
+	sequence : string
+
+GENE NAMES:
+	gene_id : integer
+	name : string
+
+TRANSCRIPTION FACTORS:
+	id : integer
+	name : string
+
+BINDING SITES:
+	id     : integer
+	start  : integer
+	length : integer
+
+Relations:
+
+ENCODING:
+	transcription_factor_id : integer
+	gene_id                 : integer
+
+REGULATIONS:
+	gene_id          : integer
+	transcription_id : integer
+	binding_site_id  : integer
+
