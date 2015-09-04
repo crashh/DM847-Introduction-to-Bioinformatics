@@ -1,11 +1,17 @@
 graph g {
+	subgraph {
+	rank=same
 	GENE[shape=box]
 	"BINDING SITE"[shape=box]
 	"GENE NAME"[shape=box]
 	"TRANSCRIPTION FACTOR"[shape=box]
-	GENE "BINDING SITE" "GENE NAME" "TRANSCRIPTION FACTOR" [rank=same]
-	"IS CALLED" "ENCODING" "REGULATION" [rank=same]
-
+	}
+	subgraph {
+		rank=same
+		"IS CALLED"
+		"ENCODING"
+		"REGULATION"
+	}
 	"IS CALLED" [shape=diamond]
 	ENCODING [shape=diamond]
 	REGULATION [shape=diamond]
