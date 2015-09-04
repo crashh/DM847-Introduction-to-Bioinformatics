@@ -24,8 +24,8 @@ graph g {
 	gene_sequence [label=sequence]
 	gene_sequence -- GENE
 
-	gene_name [label=<<u>name</u>>]
-	gene_name_id [label="id"]
+	gene_name [label="name"]
+	gene_name_id [label=<<u>id</u>>]
 
 	gene_name -- "GENE NAME"
 	gene_name_id -- "GENE NAME"
@@ -47,27 +47,28 @@ graph g {
 	gene_name_id_called[label=<<u>name id</u>>]
 
 	subgraph {
-	rank=same
-	encoding_gene_id [label=<<u>gene id</u>>]
-	encoding_trans_id [label=<<u>transcription id</u>>]
+		rank=same
+		encoding_gene_id [label=<<u>gene id</u>>]
+		encoding_trans_id [label=<<u>transcription id</u>>]
 	}
 	encoding_gene_id -- ENCODING -- encoding_trans_id
 	
 	subgraph {
-	rank=same
-	regulation_binding_id [label=<<u>binding id</u>>]
-	regulation_gene_id    [label=<<u>gene id</u>>]
-	regulation_trans_id   [label=<<u>translation id</u>>]
+		rank=same
+		regulation_binding_id [label=<<u>binding id</u>>]
+		regulation_gene_id    [label=<<u>gene id</u>>]
+		regulation_trans_id   [label=<<u>translation id</u>>]
 	}
 	
-	regulation_binding_id -- REGULATION -- regulation_gene_id
+	regulation_binding_id -- REGULATION
+	REGULATION -- regulation_gene_id
 	REGULATION -- regulation_trans_id
 
-	GENE -- REGULATION
-	"TRANSCRIPTION FACTOR" -- REGULATION
-	"BINDING SITE" -- REGULATION
-	"GENE NAME" -- "IS CALLED"
+	GENE -- REGULATION [label="1"]
+	"TRANSCRIPTION FACTOR" -- REGULATION [label="1"]
+	"BINDING SITE" -- REGULATION [label="1..n"]
+	"GENE NAME" -- "IS CALLED" [label="1..n"]
 
-	GENE -- "IS CALLED"
+	GENE -- "IS CALLED" [label="1"]
 	
 }
