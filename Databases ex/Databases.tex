@@ -64,23 +64,52 @@ A transcription factor is encoded by one gene.
 \item 
 A transcription factor may regulate a gene by binging to one or more binding sites.
 \end{enumerate}
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{graph.pdf}
 
 \end{figure}
 \item
-Download and install MySQL. Design and write DDL code for MySQL that implements the in exercise 3 designed database model. Afterwards, provide DML code that fills the database with arbitrary data. Finally, give the corresponding 
-SQL code for the following two queries:
+\textit{Download and install MySQL. Design and write DDL code for MySQL that implements the in exercise 3 designed database model. Afterwards, provide DML code that fills the database with arbitrary data. Finally, give the corresponding 
+SQL code for the following two queries:}
 \begin{enumerate}
 \item
-A list of all genes that are regulated by two ore more transcription factors. Hint: Use the MySQL online manual, You might need the “group” and “count” clauses, for instance.
+\textit{A list of all genes that are regulated by two ore more transcription factors.}
+
+\begin{lstlisting}
+SELECT * FROM GENE WHERE 
+	(
+	SELECT gene_id FROM TRANSCRIPTION 
+	WHERE COUNT (gene_id) > 1
+	) = id;
+\end{lstlisting}
+
 \item
-A list of all gene regulations. Output style: transcription factor, target gene, binding site
+\textit{A list of all gene regulations. Output style: transcription factor, target gene, binding site}
+\begin{lstlisting}
+SELECT * FROM TRANSCRIPTION 
+ORDER BY TRANSCRIPTION.name, GENE.name, BINDING_SITE.id
+\end{lstlisting}
+
+
 \end{enumerate}
 
 \item
-Name and describe one major advantage and one major disadvantage of an ontological, generalized data structure over 
-“standard”, explicit data structures. When would you use which approach. Explain why (give example if necessary).
+\textit{Name and describe one major advantage and one major disadvantage of an ontological, generalized data structure over “standard”, explicit data structures. When would you use which approach. Explain why (give example if necessary).}\\
+
+\begin{itemize}
+\item
+\textbf{Advantage:} More flexible.
+
+\item
+\textbf{Dis-advantage:} Hard to search due to structure. Might miss information.
+\end{itemize}
+Which approach?
+\begin{itemize}
+\item
+\textbf{Ontological:} If I would need a quick overview, where I don't know if there is any structure in the data or what the structure is.
+\item
+\textbf{Standard:} Once a structure of the data has revealed itself.
+\end{itemize}
 \end{enumerate}
 \end{document}
