@@ -1,0 +1,10 @@
+
+-- DDL
+CREATE DATABASE bioInfo; -- create new database
+USE bioInfo; -- use that new database
+CREATE TABLE GENE_NAME (id INT PRIMARY KEY, name CHAR(32) NOT NULL); -- gene name tables
+CREATE TABLE GENE (sequence CHAR(32) NOT NULL, id INT PRIMARY KEY);
+CREATE TABLE TRANSSCRIPTION_FACTOR (name CHAR(32) NOT NULL, id INT PRIMARY KEY);
+CREATE TABLE BINDING_SITE (id INT PRIMARY KEY, bstart CHAR(32) NOT NULL, blength CHAR(32) NOT NULL); 
+
+
