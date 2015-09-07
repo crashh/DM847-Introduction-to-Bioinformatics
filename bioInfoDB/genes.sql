@@ -1,5 +1,5 @@
 
--- DDL
+-- Definitions
 DROP DATABASE IF EXISTS bioInfo;
 CREATE DATABASE bioInfo; -- create new database
 USE bioInfo; -- use that new database
@@ -37,7 +37,7 @@ CREATE VIEW encodes AS
 	FROM GENE AS A JOIN TRANSCRIPTION_FACTOR AS B 
 	ON A.id = B.b_id;
  
--- DML
+-- Filler data
 INSERT INTO GENE (g_sequence) VALUES ("ATTAT");
 INSERT INTO GENE (g_sequence) VALUES ("GTDAT");
 INSERT INTO GENE (g_sequence) VALUES ("GGADT");

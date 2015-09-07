@@ -90,16 +90,16 @@ SELECT * FROM GENE WHERE
 SELECT * FROM TRANSCRIPTION 
 ORDER BY TRANSCRIPTION.name, GENE.name, BINDING_SITE.id
 \end{lstlisting}
-
-
 \end{enumerate}
+
+Our DDL and DML SQL code is in the appendix of this document.
 
 \item
 \textit{Name and describe one major advantage and one major disadvantage of an ontological, generalized data structure over “standard”, explicit data structures. When would you use which approach. Explain why (give example if necessary).}\\
 
 \begin{itemize}
 \item
-\textbf{Advantage:} More flexible.
+\textbf{Advantage:} More flexible when adding new concepts to the database.
 
 \item
 \textbf{Dis-advantage:} Hard to search due to structure. Might miss information.
@@ -112,4 +112,11 @@ Which approach?
 \textbf{Standard:} Once a structure of the data has revealed itself.
 \end{itemize}
 \end{enumerate}
+
+\appendix
+\section{SQL code}
+
+\lstset{language=SQL}
+\lstinputlisting{../bioInfoDB/genes.sql}
+
 \end{document}
