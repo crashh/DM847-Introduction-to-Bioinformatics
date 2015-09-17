@@ -38,30 +38,91 @@ Group: Anders Busch, Dan Sebastian Thrane, Frederik Hertzum, Henrik Schulz, Lars
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TASK 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Explain/define: “Operon” and “Transcription Unit”?}\\
+\subsection*{Explain/define: “Transcription Factor Binding Site” and “Position Weight Matrix”.}\\
 
 \begin{itemize}
 \item
-\textbf{An operon} is a functioning unit of genomic DNA containing a cluster of genes under the control of a single region of DNA that initiates transcription of a particular gene. 
+\textbf{Transcription Factor (Binding Site)} is a protein that binds to specific DNA sequences, thereby controlling the rate of transcription of genetic information from DNA to messenger RNA.
 \item
-\textbf{Transcription} is a process that occurs in all living cells. During transcription, strands of RNA are created based on the DNA found within the cells. \\
-When a strand of messenger RNA (mRNA) is created, it is then used to produce proteins during translation. A whole strand of DNA is not usually transcribed into mRNA, but instead specific sections of the DNA are, which are called transcription units.
+\textbf{A position weight matrix} (PWM), also known as a position-specific weight matrix (PSWM) or position-specific scoring matrix (PSSM), is a commonly used representation of motifs (sequence patterns) in biological sequences.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TASK 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Write a Java program SELO that reads a file with the following eight sequences. SELO shall compute and output a table with the characteristic numbers for a “standard” sequence logo (no HMM logo).}\\
+\subsection*{Given are the following 18 binding sequences for a transcription
+factor.}\\
+
+\begin{verbatim}
+cctacgcccc   
+cctccttgcc
+cctccacccc   
+cctcctcccc
+catcctcccg   
+catcctcccg
+cctccttgcc   
+cctacgcccc
+cctcctcccc   
+cctccacccc
+actcatcatc   
+cctcctcccc
+tatccgcccc   
+tctcatcctg
+actcatccct   
+gctcaccctt
+cctcatcctg   
+actcctccct
+\end{verbatim}
 
 \begin{itemize}
 \item
-See seperate java folder.
+\textbf{Compute (1) a position count matrix} \\
+\begin{equation}
+  \begin{pmatrix}
+	  & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9 \\
+	\hline
+	A & 3  & 3  & 0  & 2  & 5  & 2  & 0  & 1  & 0  & 0 \\
+	C & 12 & 15 & 0  & 16 & 13 & 1  & 16 & 15 & 14 & 11\\
+	G & 1  & 0  & 0  & 0  & 0  & 3  & 0  & 2  & 0  & 4 \\
+	T & 2  & 0  & 18 & 0  & 0  & 12 & 2  & 0  & 4  & 3 \\
+  \end{pmatrix}
+\end{equation}
+
+\item
+\textbf{(2) a position weight matrix} \\
+\begin{equation}
+  \begin{pmatrix}
+	  & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9 \\
+	\hline
+	A & 3/18  & 3/18  & 0/18  & 2/18  & 5/18  & 2/18  & 0/18  & 1/18  & 0/18  & 0/18 \\
+	C & 12/18 & 15/18 & 0/18  & 16/18 & 13/18 & 1/18  & 16/18 & 15/18 & 14/18 & 11/18\\
+	G & 1/18  & 0/18  & 0/18  & 0/18  & 0/18  & 3/18  & 0/18  & 2/18  & 0/18  & 4/18 \\
+	T & 2/18  & 0/18  & 18/18 & 0/18  & 0/18  & 12/18 & 2/18  & 0/18  & 4/18  & 3/18 \\
+  \end{pmatrix}
+\end{equation}
+Note that each entry should be multiplied by a pseudo number, to avoid having 0's. Having any 0's would cause the probability to be 0, regardless of the other entries.
+We should assume the following background distribution of nucleotides.
+\begin{verbatim}
+A: 0.2 T: 0.2 C: 0.3 G: 0.3
+\end{verbatim}
+Therefore the PWM looks like:
+\begin{equation}
+  \begin{pmatrix}
+	  & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9 \\
+	\hline
+	A & 3/18  & 3/18  & 0.2/18  & 2/18  & 5/18  & 2/18  & 0.2/18  & 1/18  & 0.2/18  & 0.2/18 \\
+	C & 12/18 & 15/18 & 0.2/18  & 16/18 & 13/18 & 1/18  & 16/18 & 15/18 & 14/18 & 11/18\\
+	G & 1/18  & 0.3/18  & 0.3/18  & 0.3/18  & 0.3/18  & 3/18  & 0.3/18  & 2/18  & 0.3/18  & 4/18 \\
+	T & 2/18  & 0.3/18  & 18/18 & 0.3/18  & 0.3/18  & 12/18 & 2/18  & 0.3/18  & 4/18  & 3/18 \\
+  \end{pmatrix}
+\end{equation}
+
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TASK 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{What is the main idea behind the unsupervised operon prediction method introduced in the class, i.e. why does it “work” without prior knowledge about concrete previously identified operons (sample/training data)?}\\
+\subsection*{-}\\
 
 \begin{itemize}
 \item
@@ -71,7 +132,7 @@ TODO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TASK 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Why are the features for adjacent genes computed separately for closely and distantly related organisms?}\\
+\subsection*{-}\\
 
 \begin{itemize}
 \item
