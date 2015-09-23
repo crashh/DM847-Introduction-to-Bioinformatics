@@ -38,7 +38,7 @@ Group: Anders Busch, Dan Sebastian Thrane, Frederik Hertzum, Henrik Schulz, Lars
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TASK 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Explain/define: “Transcription Factor Binding Site” and “Position Weight Matrix”.}\\
+\subsection*{Explain/define: “Transcription Factor Binding Site” and “Position Weight Matrix”.}
 
 \begin{itemize}
 \item
@@ -50,8 +50,7 @@ Group: Anders Busch, Dan Sebastian Thrane, Frederik Hertzum, Henrik Schulz, Lars
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TASK 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Given are the following 18 binding sequences for a transcription
-factor.}\\
+\subsection*{Given are the following 18 binding sequences for a transcription factor.}
 
 \begin{verbatim}
 cctacgcccc   
@@ -76,53 +75,52 @@ actcctccct
 
 \begin{itemize}
 \item
-\textbf{Compute (1) a position count matrix} \\
-\begin{equation}
-  \begin{pmatrix}
-	  & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9 \\
-	\hline
+\textbf{Compute (1) a position count matrix} 
+\begin{table}[!h]
+\begin{tabular}{c | c | c | c | c | c | c | c | c | c | c | })
+  & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9 \\
+  \hline
 	A & 3  & 3  & 0  & 2  & 5  & 2  & 0  & 1  & 0  & 0 \\
-	C & 12 & 15 & 0  & 16 & 13 & 1  & 16 & 15 & 14 & 11\\
+	C & 12 & 15 & 0  & 16 & 13 & 1  & 16 & 15 & 14 & 11 \\
 	G & 1  & 0  & 0  & 0  & 0  & 3  & 0  & 2  & 0  & 4 \\
 	T & 2  & 0  & 18 & 0  & 0  & 12 & 2  & 0  & 4  & 3 \\
-  \end{pmatrix}
-\end{equation}
-
+\end{tabular}
+\end{table}
 \item
-\textbf{(2) a position weight matrix} \\
-\begin{equation}
-  \begin{pmatrix}
-	  & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9 \\
+\textbf{(2) a position weight matrix} 
+\begin{table}[!h]
+  \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c}
+	  & 0 	  & 1     & 2     & 3  	  & 4  & 5  & 6  & 7  & 8  & 9 \\
 	\hline
 	A & 3/18  & 3/18  & 0/18  & 2/18  & 5/18  & 2/18  & 0/18  & 1/18  & 0/18  & 0/18 \\
 	C & 12/18 & 15/18 & 0/18  & 16/18 & 13/18 & 1/18  & 16/18 & 15/18 & 14/18 & 11/18\\
 	G & 1/18  & 0/18  & 0/18  & 0/18  & 0/18  & 3/18  & 0/18  & 2/18  & 0/18  & 4/18 \\
 	T & 2/18  & 0/18  & 18/18 & 0/18  & 0/18  & 12/18 & 2/18  & 0/18  & 4/18  & 3/18 \\
-  \end{pmatrix}
-\end{equation}
+  \end{tabular}
+\end{table}
 Note that each entry should be multiplied by a pseudo number, to avoid having 0's. Having any 0's would cause the probability to be 0, regardless of the other entries.
 We should assume the following background distribution of nucleotides.
 \begin{verbatim}
 A: 0.2 T: 0.2 C: 0.3 G: 0.3
 \end{verbatim}
 Therefore the PWM looks like:
-\begin{equation}
-  \begin{pmatrix}
+\begin{table}[!h]
+  \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c}
 	  & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9 \\
 	\hline
 	A & 3/18  & 3/18  & 0.2/18  & 2/18  & 5/18  & 2/18  & 0.2/18  & 1/18  & 0.2/18  & 0.2/18 \\
 	C & 12/18 & 15/18 & 0.2/18  & 16/18 & 13/18 & 1/18  & 16/18 & 15/18 & 14/18 & 11/18\\
 	G & 1/18  & 0.3/18  & 0.3/18  & 0.3/18  & 0.3/18  & 3/18  & 0.3/18  & 2/18  & 0.3/18  & 4/18 \\
 	T & 2/18  & 0.3/18  & 18/18 & 0.3/18  & 0.3/18  & 12/18 & 2/18  & 0.3/18  & 4/18  & 3/18 \\
-  \end{pmatrix}
-\end{equation}
+	\end{tabular}
+\end{table}
 
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TASK 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{-}\\
+\subsection*{-}
 
 \begin{itemize}
 \item
@@ -132,7 +130,7 @@ TODO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TASK 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{-}\\
+\subsection*{-}
 
 \begin{itemize}
 \item
@@ -140,5 +138,5 @@ TODO
 \end{itemize}
 
 
-\end{enumerate}
+
 \end{document}
