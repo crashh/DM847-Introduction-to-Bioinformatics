@@ -31,7 +31,7 @@ extendedchars=true,
 
 
 \begin{document}
-\section*{Exercise sheet 2}
+\section*{Exercise sheet 3}
 
 Group: Anders Busch, Dan Sebastian Thrane, Frederik Hertzum, Henrik Schulz, Lars Thomasen and Peter Gottlieb
 
@@ -42,9 +42,9 @@ Group: Anders Busch, Dan Sebastian Thrane, Frederik Hertzum, Henrik Schulz, Lars
 
 \begin{itemize}
 \item
-\textbf{Transcription Factor (Binding Site)} is a protein that binds to specific DNA sequences, thereby controlling the rate of transcription of genetic information from DNA to messenger RNA.
+\textbf{Transcription Factor (Binding Site)} is a protein that binds to specific DNA sequences, thereby controlling the rate of transcription of genetic information from DNA to messenger RNA. It is the areas before the gene.
 \item
-\textbf{A position weight matrix} (PWM), also known as a position-specific weight matrix (PSWM) or position-specific scoring matrix (PSSM), is a commonly used representation of motifs (sequence patterns) in biological sequences.
+\textbf{A position weight matrix} (PWM), also known as a position-specific weight matrix (PSWM) or position-specific scoring matrix (PSSM), is a commonly used representation of motifs (sequence patterns) in biological sequences. The whole matrix is used to to represent the most likely motif sequence.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -54,24 +54,15 @@ Group: Anders Busch, Dan Sebastian Thrane, Frederik Hertzum, Henrik Schulz, Lars
 factor.}\\
 
 \begin{verbatim}
-cctacgcccc   
-cctccttgcc
-cctccacccc   
-cctcctcccc
-catcctcccg   
-catcctcccg
-cctccttgcc   
-cctacgcccc
-cctcctcccc   
-cctccacccc
-actcatcatc   
-cctcctcccc
-tatccgcccc   
-tctcatcctg
-actcatccct   
-gctcaccctt
-cctcatcctg   
-actcctccct
+cctacgcccc	cctccttgcc
+cctccacccc	cctcctcccc
+catcctcccg	catcctcccg
+cctccttgcc	cctacgcccc
+cctcctcccc	cctccacccc
+actcatcatc	cctcctcccc
+tatccgcccc	tctcatcctg
+actcatccct	gctcaccctt
+cctcatcctg	actcctccct
 \end{verbatim}
 
 \begin{itemize}
@@ -105,7 +96,7 @@ We should assume the following background distribution of nucleotides.
 \begin{verbatim}
 A: 0.2 T: 0.2 C: 0.3 G: 0.3
 \end{verbatim}
-Therefore the PWM looks like:
+First we multiply the weight (c=4) with each pseudo-number (ex: 4 times 0.2) and then we ADD the pseudo-count to the matrix. Therefore the PWM looks like (todo, its currently \textbf{wrong}):
 \begin{equation}
   \begin{pmatrix}
 	  & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9 \\
