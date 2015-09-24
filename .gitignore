@@ -1,1 +1,9 @@
 .DS_Store
+
+#Tex temps
+*.aux
+*.log
+*.out
+*.pdf
+*.gz
+
