@@ -1,0 +1,84 @@
+\documentclass[a4paper,10pt,titlepage]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[danish]{babel}
+\usepackage{amssymb}
+%\usepackage{mathtools}
+\usepackage{bchart}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{hyperref}
+\hypersetup{%
+    pdfborder = {0 0 0}
+}
+
+\parindent0em
+
+\lstset{%
+frame=single,
+numbers=left,
+numberstyle=\footnotesize,
+tabsize=2,
+keepspaces=true,
+columns=fullflexible,
+basicstyle=\ttfamily\scriptsize,
+inputencoding=utf8,
+extendedchars=true,
+}
+
+
+\begin{document}
+\section*{Exercise sheet 4}
+
+Group: Anders Busch, Dan Sebastian Thrane, Frederik Hertzum, Henrik Schulz, Lars Thomasen and Peter Gottlieb
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TASK 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Explain/define: “Sequence motif” and “gene/transcription factor knock-out”}
+
+\begin{itemize}
+\item
+\textbf{todo}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TASK 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Imagine we performed at transcription factor (TF) knock-out study and identified 25 differentially expressed genes. Now, we aim to identify a binding motif for the knocked-out TF in the upstream sequences of these 25 genes de novo. We further assume the TF to dock a 19-bp sequence within each of the upstream sequences. }
+
+\begin{itemize}
+\item
+\textbf{todo}
+\end{itemize}
+
+\subsubsection{Download the upstream sequences in FASTA format from URL1 (see below). Write a JAVA program SEQMOTIF that implements an Expectation Maximization algorithm on DNA sequences. What are the 25 most likely 19-bp binding sequences of the TF?}
+
+For simplification: You may use the nucleotide content of all 25 upstream sequences as background distribution, i.e. you don’t need to update the background model; assume it’s static.
+
+\begin{itemize}
+\item
+\textbf{todo}
+\end{itemize}
+
+\subsubsection{2b. Afterwards, use the sequence logo painter from our exercise sheet or the publicly available WebLogo painter (URL2, see below) to paint the sequence logo of the binding motif.}
+
+\begin{itemize}
+\item
+\textbf{todo}
+\end{itemize}
+
+\subsubsection{2c. Give the consensus sequence.}
+
+Hint: The consensus sequence of the most likely motif should start with TTAGG and end with CCTAA.
+
+\begin{itemize}
+\item
+\textbf{todo}
+\end{itemize}
+
+\end{enumerate}
+\end{document}
