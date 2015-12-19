@@ -12,15 +12,23 @@ import java.util.stream.Collectors;
 
 public class CsvParser {
     private final String inputFile;
+    private final File file;
     private List<List<String>> table;
 
     public CsvParser(String inputFile) {
         this.inputFile = inputFile;
+        this.file = null;
+    }
+
+    public CsvParser(File file) {
+        this.file = file;
+        this.inputFile = null;
     }
 
     public void parseStripComments() {
         try {
-            List<String> strings = Files.readAllLines(Paths.get(new File(inputFile).toURI()));
+            File realInput = (file != null) ? file : new File(inputFile);
+            List<String> strings = Files.readAllLines(Paths.get(realInput.toURI()));
             table = strings.stream()
                     .filter(it -> !it.startsWith("#"))
                     .map(it -> Arrays.asList(it.split(",")))
