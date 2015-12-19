@@ -21,7 +21,7 @@ public class PreprocessRawDataFiles {
                 .forEach(file -> {
                     logger.info("Processing " + file.getName());
                     CsvParser parser = new CsvParser(file);
-                    parser.parseStripComments();
+                    parser.parseAndStripComments();
                     String tempProcessedOutput = new File(outputFolder, "temp_" + file.getName()).getAbsolutePath();
                     String processedOutput = new File(outputFolder, "final_" + file.getName()).getAbsolutePath();
                     parser.dumpTable(tempProcessedOutput);

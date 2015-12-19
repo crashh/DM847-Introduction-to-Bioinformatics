@@ -25,13 +25,13 @@ public class CsvParser {
         this.inputFile = null;
     }
 
-    public void parseStripComments() {
+    public void parseAndStripComments() {
         try {
             File realInput = (file != null) ? file : new File(inputFile);
             List<String> strings = Files.readAllLines(Paths.get(realInput.toURI()));
             table = strings.stream()
                     .filter(it -> !it.startsWith("#"))
-                    .map(it -> Arrays.asList(it.split(",")))
+                    .map(it -> Arrays.asList(it.split(",|\\t")))
                     .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
