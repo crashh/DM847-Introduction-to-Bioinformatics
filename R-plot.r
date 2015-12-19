@@ -1,23 +1,33 @@
-# example R plot with ggplot2
-# ggplot2 is availble on ubuntu from the apt-get package manager via the 
-# package name "r-cran-ggplot2"
-library(ggplot2) # "import" 
+library(ggplot2)
+library(reshape2)
 
-m = matrix(data=cbind(rnorm(30,0), rnorm(30,2), rnorm(30,5)), nrow=30, ncol=3)
-	# create some random matrix
+args <- commandArgs(TRUE)
+setwd(args[1])
 
-colnames(m) <- c('method1', 'method2', 'method3') 
-	# set column header names for the matrix
+rawCsv = read.csv(file = args[2], comment.char = "#", header = TRUE)
 
-df = as.data.frame(m) 
-	# ggplot2 likes to have it's data as data frames
+# Removes columns we don't need
+rawCsv <- rawCsv[-(1:1), -(2:2)]
 
-dfs = stack(df) 
-	# "unrolls" the matrix such that the dataframe only contains tow columns
+# Re-formats the data, such that we may plot it
+processedData <- melt(rawCsv)
 
-p = ggplot2(dfs, aes(x=values)) + geom_density(aes(group=ind,colour=ind,fill=ind),alpha=0.3)
-	# creates the actual plot with some colours and transparity and stores it
+# Setup the column names
+colnames(processedData) = c("y", "x", "z")
 
-ggsave("~/test.png", plot=p, height=11, width=10)
-	# saves the plot with the height and width IN INCHES
+# Removes the X in the variable name, such that it may be interpreted as a 
+# numeric value
+processedData <- as.data.frame(sapply(processedData, gsub, pattern="X", 
+    replacement=""))
 
+# Convert data to their numeric values
+processedData$x <- as.numeric(as.character(processedData$x))
+processedData$y <- as.numeric(as.character(processedData$y))
+processedData$z <- as.numeric(as.character(processedData$z))
+
+c <- ggplot(processedData, 
+        aes(y = processedData$x, x = processedData$y, color = processedData$z)) + 
+        geom_tile() +
+        scale_color_gradient2(low = "yellow", mid = "blue", high = "red", midpoint = -650)
+
+ggsave(plot = c, filename = args[3])

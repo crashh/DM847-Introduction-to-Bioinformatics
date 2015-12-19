@@ -26,8 +26,8 @@ public class ToolUtils {
         readProcess(peaxP);
     }
 
-    public static void runRScript(String scriptFileName, boolean silence) throws IOException {
-        Process rProcess = Runtime.getRuntime().exec("R -q --no-save < " + scriptFileName);
+    public static void runRScript(boolean silence, String scriptFileName, String... args) throws IOException {
+        Process rProcess = Runtime.getRuntime().exec("Rscript " + scriptFileName + " " + String.join(" ", args));
         if (!silence) {
             readProcess(rProcess);
         }
