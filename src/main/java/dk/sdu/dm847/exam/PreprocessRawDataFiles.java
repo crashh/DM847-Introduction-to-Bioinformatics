@@ -10,7 +10,7 @@ public class PreprocessRawDataFiles {
     private static final Logger logger = Logger.getLogger(PreprocessRawDataFiles.class.getName());
 
     public static void main(String[] args) throws Exception {
-        File candyRawInput = new File("candy_raw");
+        File candyRawInput = new File(args[0]);
         File outputFolder = new File(candyRawInput, "output");
         logger.info("Starting pre-process step.");
         logger.info("Input folder: " + candyRawInput.getAbsolutePath());
