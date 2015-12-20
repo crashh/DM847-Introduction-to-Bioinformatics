@@ -79,12 +79,6 @@ public class PeakAlignment {
 
             writeArffHeader(alignedPeaks, writer);
 
-            writer.print("t");
-            for (int i = 0; i < alignedPeaks.size(); i++) {
-                writer.printf(",p%d", i + 1);
-            }
-            writer.println();
-
             whohas.forEach((key, value) -> {
                 boolean[] hasPeaks = new boolean[alignedPeaks.size()];
                 value.forEach(it -> hasPeaks[it.getUniqueId() - 1] = true);
@@ -106,7 +100,7 @@ public class PeakAlignment {
     private void writeArffHeader(List<Peak> alignedPeaks, PrintWriter writer) {
         writer.println("@relation training");
         writer.println();
-        writer.println("@attribute t {H, C}");
+        writer.println("@attribute t {H,C}");
         for (int i = 0; i < alignedPeaks.size(); i++) {
             writer.printf("@attribute p%d {0,1}\n", i + 1);
         }
