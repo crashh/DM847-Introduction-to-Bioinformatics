@@ -1,53 +1,93 @@
 package dk.sdu.dm847.exam;
 
+import weka.classifiers.AbstractClassifier;
+import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Attribute;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
+import weka.core.Utils;
 import weka.core.converters.ArffLoader;
 import weka.core.converters.Loader;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Train {
+
+    public static final int NUM_FOLDS = 5;
+
     public static void main(String[] args) throws Exception {
-        		/*
-		 * First we load the training data from our ARFF file
-		 */
         ArffLoader trainLoader = new ArffLoader();
         trainLoader.setSource(new File("training.arff"));
         trainLoader.setRetrieval(Loader.BATCH);
         Instances trainDataSet = trainLoader.getDataSet();
 
-		/*
-		 * Now we tell the data set which attribute we want to classify, in our
-		 * case, we want to classify the first column: survived
-		 */
         Attribute trainAttribute = trainDataSet.attribute(0);
         trainDataSet.setClass(trainAttribute);
 
-		/*
-		 * The RandomForest implementation cannot handle columns of type string,
-		 * so we remove them for now.
-		 */
-        trainDataSet.deleteStringAttributes();
+        Random random = new Random();
+        Instances randomData = new Instances(trainDataSet);
+        randomData.randomize(random);
 
-		/*
-		 * Create a new Classifier of type RandomForest and configure it.
-		 */
         RandomForest classifier = new RandomForest();
-        classifier.setNumTrees(500);
+        classifier.setNumTrees(10);
         classifier.setDebug(true);
 
-		/*
-		 * Now we train the classifier
-		 */
-        classifier.buildClassifier(trainDataSet);
+        Evaluation evalAll = new Evaluation(randomData);
+        List<double[][]> confusionMatrices = new ArrayList<>();
 
-		/*
-		 * We are done training the classifier, so now we serialize it to disk
-		 */
-        SerializationHelper.write("halls.model", classifier);
-        System.out.println("Saved trained model to halls.model");
+        for (int i = 0; i < NUM_FOLDS; i++) {
+            Evaluation eval = new Evaluation(randomData);
+            Instances train = randomData.trainCV(NUM_FOLDS, i);
+            Instances test = randomData.testCV(NUM_FOLDS, i);
+            Classifier copy = AbstractClassifier.makeCopy(classifier);
+            copy.buildClassifier(train);
+            eval.evaluateModel(copy, test);
+            evalAll.evaluateModel(copy, test);
+            confusionMatrices.add(eval.confusionMatrix());
+            System.out.println(eval.toMatrixString("=== Confusion matrix for fold " +
+                    (i + 1) + "/" + NUM_FOLDS + " ===\n"));
+        }
+
+        double sensitivity = 0;
+        double specificity = 0;
+        double accuracy = 0;
+        for (int i = 0; i < NUM_FOLDS; i++) {
+            double[][] confusion = confusionMatrices.get(i);
+            // Citrus = positive
+            // Original = negative
+            double trueCitrus = confusion[1][1];
+            double trueHalls = confusion[0][0];
+            double sum = confusion[0][0] + confusion[0][1] + confusion[1][0] + confusion[1][1];
+            accuracy += (trueCitrus + trueHalls) / (sum);
+
+            double citrusTotal = confusion[0][1] + confusion[1][1];
+            if (citrusTotal != 0) {
+                sensitivity += confusion[1][1] / citrusTotal;
+            } else {
+                sensitivity += 1;
+            }
+
+            double originalTotal = confusion[0][0] + confusion[1][0];
+            if (originalTotal != 0) {
+                specificity += confusion[0][0] / originalTotal;
+            } else {
+                specificity += 1;
+            }
+        }
+
+        double meanSensitivity = sensitivity / NUM_FOLDS;
+        double meanSpecificity = specificity / NUM_FOLDS;
+        double meanAccuracy = accuracy / NUM_FOLDS;
+
+        System.out.println("Mean sensitivity: " + meanSensitivity);
+        System.out.println("Mean specificity: " + meanSpecificity);
+        System.out.println("Mean accuracy: " + meanAccuracy);
+
+        System.out.println(evalAll.toSummaryString("=== " + NUM_FOLDS + "-fold Cross-validation ===", true));
     }
 }
