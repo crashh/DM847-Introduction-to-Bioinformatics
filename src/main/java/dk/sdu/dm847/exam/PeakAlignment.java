@@ -75,7 +75,7 @@ public class PeakAlignment {
 
         try (PrintWriter writer = new PrintWriter(new FileWriter("training.arff"))) {
             Map<String, Label> labelsMap = new HashMap<>();
-            Label.readLabels(new File("candy_no_labels/labels.csv")).forEach(it -> labelsMap.put(it.getOrigin(), it));
+            Label.readLabels(new File("candy_labels/labels.csv")).forEach(it -> labelsMap.put(it.getOrigin(), it));
 
             writeArffHeader(alignedPeaks, writer);
 
