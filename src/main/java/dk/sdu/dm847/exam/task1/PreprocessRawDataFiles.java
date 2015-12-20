@@ -1,5 +1,8 @@
-package dk.sdu.dm847.exam;
+package dk.sdu.dm847.exam.task1;
 
+
+import dk.sdu.dm847.exam.CsvParser;
+import dk.sdu.dm847.exam.ToolUtils;
 
 import java.io.File;
 import java.io.IOException;

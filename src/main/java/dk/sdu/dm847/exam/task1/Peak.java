@@ -1,4 +1,4 @@
-package dk.sdu.dm847.exam;
+package dk.sdu.dm847.exam.task1;
 
 public class Peak {
     private final String measurementName;

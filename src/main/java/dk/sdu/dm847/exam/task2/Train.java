@@ -1,4 +1,4 @@
-package dk.sdu.dm847.exam;
+package dk.sdu.dm847.exam.task2;
 
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
