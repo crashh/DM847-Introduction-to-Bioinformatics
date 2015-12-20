@@ -16,6 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Loads the generated data from task 1 and trains a RF classifier using the WEKA framework.
+ * source on HOW-to: https://github.com/birchsport/titanic
+ *
+ * Using the generated confusion matrix, mean accuracy, sensitivity and specificity are calculated.
+ * Source: https://en.wikipedia.org/wiki/Confusion_matrix
+ *
+ * The five most descriminating features cannot be extracted in WEKA. Waiting for help from Jan.
+ */
 public class Train {
 
     public static final int NUM_FOLDS = 5;

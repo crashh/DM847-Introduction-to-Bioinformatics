@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Used to see which labels belongs to which files.
+ */
 public class Label {
     private final CandyType type;
     private final String origin;

@@ -9,6 +9,9 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The actual peak alignment happening, see PeakAligner.
+ */
 public class PeakAlignment {
     private final List<File> peaxFile;
     private final double threshold;

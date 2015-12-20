@@ -1,5 +1,9 @@
 package dk.sdu.dm847.exam.task1;
 
+/**
+ * Peak object.
+ * This represents a single peak in the peak alignment process.
+ */
 public class Peak {
     private final String measurementName;
     private final String peakName;
