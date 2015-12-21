@@ -13,6 +13,8 @@ import weka.core.converters.ArffLoader;
 import weka.core.converters.Loader;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -52,7 +54,7 @@ public class Train {
         randomData.randomize(random);
 
         RandomForest classifier = new RandomForest();
-        classifier.setNumTrees(500);
+        classifier.setNumTrees(300);
         classifier.setDebug(false);
         classifier.setSeed(1234);
 
@@ -60,8 +62,6 @@ public class Train {
         SerializationHelper.write("halls_rf_trained.model", classifier);
         logger.info("Saved trained model to halls_rf_trained.model");
 
-
-/*
         Evaluation evalAll = new Evaluation(randomData);
         List<double[][]> confusionMatrices = new ArrayList<>();
 
@@ -74,7 +74,7 @@ public class Train {
             eval.evaluateModel(copy, test);
             evalAll.evaluateModel(copy, test);
             confusionMatrices.add(eval.confusionMatrix());
-            System.out.println(eval.toMatrixString("=== Confusion matrix for fold " +
+            logger.info(eval.toMatrixString("=== Confusion matrix for fold " +
                     (i + 1) + "/" + NUM_FOLDS + " ===\n"));
         }
 
@@ -113,6 +113,5 @@ public class Train {
         System.out.println("Mean sensitivity: " + meanSensitivity);
         System.out.println("Mean specificity: " + meanSpecificity);
         System.out.println("Mean accuracy: " + meanAccuracy);
-*/
     }
 }

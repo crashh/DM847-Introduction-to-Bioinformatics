@@ -39,7 +39,8 @@ public class RunMe {
         List<File> unlabelledFiles = Arrays.stream(new File(unlabelledData).listFiles())
                 .filter(it -> it.getName().endsWith(".csv"))
                 .collect(Collectors.toList());
-        PeakAlignment peakAlignment = new PeakAlignment(labelledFiles, unlabelledFiles, 0.4);
+        // The 0.4 is the threshold for distance before a peak is considered seperate:
+        PeakAlignment peakAlignment = new PeakAlignment(labelledFiles, unlabelledFiles, 0.42);
         peakAlignment.disableLogging();
         peakAlignment.runAlignment();
 
@@ -55,7 +56,7 @@ public class RunMe {
             e.printStackTrace();
         }
 
-        Predict predictUnlabelledData = new Predict("peakAlignedLabelled.arff");
+        Predict predictUnlabelledData = new Predict("peakAlignedUnlabelled.arff");
         try {
             predictUnlabelledData.predict();
         } catch (Exception e) {

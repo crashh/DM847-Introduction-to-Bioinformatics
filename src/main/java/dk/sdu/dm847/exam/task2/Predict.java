@@ -80,8 +80,7 @@ public class Predict {
         }
 
 		/*
-		 * Now we want to write out our predictions. The resulting file is in a
-		 * format suitable to submit to Kaggle.
+		 * Now we want to write out our predictions.
 		 */
         CSVSaver predictedCsvSaver = new CSVSaver();
         predictedCsvSaver.setFile(new File("halls_prediction.csv"));
