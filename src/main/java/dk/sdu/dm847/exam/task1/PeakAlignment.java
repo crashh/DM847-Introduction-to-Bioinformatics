@@ -140,6 +140,10 @@ public class PeakAlignment {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        List<List<Peak>> p = Collections.singletonList(alignedPeaks);
+        PeakAlignmentPlot peakAlignmentPlot = new PeakAlignmentPlot(p);
+        peakAlignmentPlot.setVisible(true);
     }
 
     private void writeArffHeader(List<Peak> alignedPeaks, PrintWriter writer) {

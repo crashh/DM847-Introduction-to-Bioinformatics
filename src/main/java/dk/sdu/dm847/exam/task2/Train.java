@@ -43,9 +43,14 @@ public class Train {
         randomData.randomize(random);
 
         RandomForest classifier = new RandomForest();
-        classifier.setNumTrees(10);
+        classifier.setNumTrees(500);
         classifier.setDebug(true);
 
+        classifier.buildClassifier(trainDataSet);
+        SerializationHelper.write("halls.model", classifier);
+        System.out.println("Saved trained model to halls.model");
+
+/*
         Evaluation evalAll = new Evaluation(randomData);
         List<double[][]> confusionMatrices = new ArrayList<>();
 
@@ -93,10 +98,10 @@ public class Train {
         double meanSpecificity = specificity / NUM_FOLDS;
         double meanAccuracy = accuracy / NUM_FOLDS;
 
+        System.out.println(evalAll.toSummaryString("=== " + NUM_FOLDS + "-fold Cross-validation ===", true));
         System.out.println("Mean sensitivity: " + meanSensitivity);
         System.out.println("Mean specificity: " + meanSpecificity);
         System.out.println("Mean accuracy: " + meanAccuracy);
-
-        System.out.println(evalAll.toSummaryString("=== " + NUM_FOLDS + "-fold Cross-validation ===", true));
+*/
     }
 }
