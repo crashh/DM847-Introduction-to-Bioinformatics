@@ -27,7 +27,7 @@ public class PeakAligner {
                 .collect(Collectors.toList());
 
 
-        PeakAlignment peakAlignment = new PeakAlignment(labelledFiles, unlabelledFiles, 0.5);
+        PeakAlignment peakAlignment = new PeakAlignment(labelledFiles, unlabelledFiles, 0.4);
         peakAlignment.runAlignment();
     }
 }

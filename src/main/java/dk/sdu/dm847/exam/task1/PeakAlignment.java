@@ -42,22 +42,30 @@ public class PeakAlignment {
             if (skipList.contains(i)) continue;
 
             Peak peakA = allPeaks.get(i);
+            List<Peak> peaks = new ArrayList<>();
             for (int j = i + 1; j < allPeaks.size(); j++) {
                 Peak peakB = allPeaks.get(j);
                 double distanceTo = peakA.distanceTo(peakB);
                 if (distanceTo < threshold) {
-                    System.out.printf("Found match between labelledPeak (%d, %f) and (%d, %f). Distance is = %f\n", peakA.getR(),
+                    System.out.printf("Found match between labelledPeak (%f, %f) and (%f, %f). Distance is = %f\n", peakA.getR(),
                             peakA.getT(), peakB.getR(), peakB.getT(), distanceTo);
                     addPeakToMap(whoHas, peakB.getMeasurementName(), peakA);
                     skipList.add(j);
+                    peaks.add(peakB);
                 }
             }
             addPeakToMap(whoHas, peakA.getMeasurementName(), peakA);
             alignedPeaks.add(peakA);
             peakA.setUniqueId(alignedPeaks.size());
+
+            try (PrintWriter writer =  new PrintWriter(new FileWriter("peaks.csv"))) {
+                writer.println("t r peak_id");
+                alignedPeaks.forEach(it -> writer.printf("%f %f %d\n", it.getT(), it.getR(), it.getUniqueId()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        //writeResultsToFile(whoHas, alignedPeaks, "training");
         Map<String, Set<Peak>> whoHasLabels = new HashMap<>();
         Map<String, Set<Peak>> whoHasNoLabels = new HashMap<>();
 
@@ -121,7 +129,7 @@ public class PeakAlignment {
             String measurementName = it.get(0);
             String peakName = it.get(1);
             double t = Double.valueOf(it.get(2));
-            int r = Integer.valueOf(it.get(3));
+            double r = Double.valueOf(it.get(3));
             double signal = Double.valueOf(it.get(4));
             int indexT = Integer.valueOf(it.get(5));
             int indexR = Integer.valueOf(it.get(6));

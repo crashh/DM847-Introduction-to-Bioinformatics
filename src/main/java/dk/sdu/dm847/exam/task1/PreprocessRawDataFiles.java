@@ -28,18 +28,13 @@ public class PreprocessRawDataFiles {
                 .filter(it -> it.getName().endsWith(".csv"))
                 .forEach(file -> {
                     logger.info("Processing " + file.getName());
-                    CsvParser parser = new CsvParser(file);
-                    parser.parseAndStripComments();
-                    String tempProcessedOutput = new File(outputFolder, "temp_" + file.getName()).getAbsolutePath();
                     String processedOutput = new File(outputFolder, "final_" + file.getName()).getAbsolutePath();
-                    parser.dumpTable(tempProcessedOutput);
-                    logger.info("Temporary table dumped at " + tempProcessedOutput);
                     try {
-                        logger.info("Running peax on " + tempProcessedOutput + " -> " + processedOutput);
-                        ToolUtils.runPEAX(new File(tempProcessedOutput), new File(processedOutput));
+                        logger.info("Running peax on " + file.getName() + " -> " + processedOutput);
+                        ToolUtils.runPEAX(file, new File(processedOutput));
                         logger.info("Running density plot script on " + file.getName());
-                        ToolUtils.runRScript(false, "R-plot.r", candyRawInput.getAbsolutePath(), file.getName(),
-                                "output/" + file.getName().replace(".csv", "") + "_density_plot.png");
+                        //ToolUtils.runRScript(false, "R-plot.r", candyRawInput.getAbsolutePath(), file.getName(),
+//                                "output/" + file.getName().replace(".csv", "") + "_density_plot.png");
                         logger.info(file.getName() + " processing done!");
                     } catch (IOException e) {
                         throw new RuntimeException(e);

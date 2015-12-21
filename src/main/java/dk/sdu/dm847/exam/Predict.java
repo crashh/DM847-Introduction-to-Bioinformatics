@@ -38,7 +38,7 @@ public class Predict {
 		 * Now we read in the serialized model from disk
 		 */
         Classifier classifier = (Classifier) SerializationHelper
-                .read("titanic.model");
+                .read("halls.model");
 
 		/*
 		 * This part may be a little confusing. We load up the test data again
