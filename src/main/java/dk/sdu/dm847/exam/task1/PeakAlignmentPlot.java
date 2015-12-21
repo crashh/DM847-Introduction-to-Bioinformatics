@@ -9,17 +9,17 @@ import java.util.stream.Collectors;
 public class PeakAlignmentPlot extends JFrame {
     public static final int WIDTH = 1100;
     public static final int HEIGHT = 750;
-    public static final int BASE_PLOT_X = 300;
+    public static final int BASE_PLOT_X = 50;
     public static final int BASE_PLOT_Y = 50;
-    public static final int PLOT_WIDTH = 250;
+    public static final int PLOT_WIDTH = 400;
     public static final int PLOT_HEIGHT = 400;
-    public static final int MAX_T = 3;
-    public static final int MAX_R = 10;
+    public static final int MAX_T = 2;
+    public static final int MAX_R = 130;
 
     private final JPanel jp;
-    private final List<List<Peak>> peaks;
+    private final Collection<List<Peak>> peaks;
 
-    public PeakAlignmentPlot(List<List<Peak>> peaks) {
+    public PeakAlignmentPlot(Collection<List<Peak>> peaks) {
         super("Plot");
         this.peaks = peaks;
         setSize(WIDTH, HEIGHT);

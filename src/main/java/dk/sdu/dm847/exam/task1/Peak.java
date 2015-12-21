@@ -8,13 +8,13 @@ public class Peak {
     private final String measurementName;
     private final String peakName;
     private final double t;
-    private final int r;
+    private final double r;
     private final double signal;
     private final int indexT;
     private final int indexR;
     private int uniqueId = -1;
 
-    public Peak(String measurementName, String peakName, double t, int r, double signal, int indexT, int indexR) {
+    public Peak(String measurementName, String peakName, double t, double r, double signal, int indexT, int indexR) {
         this.measurementName = measurementName;
         this.peakName = peakName;
         this.t = t;
@@ -40,7 +40,7 @@ public class Peak {
         return t;
     }
 
-    public int getR() {
+    public double getR() {
         return r;
     }
 
@@ -64,13 +64,13 @@ public class Peak {
         Peak peak = (Peak) o;
 
         if (Double.compare(peak.t, t) != 0) return false;
-        if (r != peak.r) return false;
+        if (Double.compare(peak.r, r) != 0) return false;
         if (Double.compare(peak.signal, signal) != 0) return false;
         if (indexT != peak.indexT) return false;
         if (indexR != peak.indexR) return false;
-        if (measurementName != null ? !measurementName.equals(peak.measurementName) : peak.measurementName != null)
-            return false;
-        return peakName != null ? peakName.equals(peak.peakName) : peak.peakName == null;
+        if (uniqueId != peak.uniqueId) return false;
+        if (!measurementName.equals(peak.measurementName)) return false;
+        return peakName.equals(peak.peakName);
 
     }
 
@@ -78,15 +78,17 @@ public class Peak {
     public int hashCode() {
         int result;
         long temp;
-        result = measurementName != null ? measurementName.hashCode() : 0;
-        result = 31 * result + (peakName != null ? peakName.hashCode() : 0);
+        result = measurementName.hashCode();
+        result = 31 * result + peakName.hashCode();
         temp = Double.doubleToLongBits(t);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + r;
+        temp = Double.doubleToLongBits(r);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(signal);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + indexT;
         result = 31 * result + indexR;
+        result = 31 * result + uniqueId;
         return result;
     }
 
