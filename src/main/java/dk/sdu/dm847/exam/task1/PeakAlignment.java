@@ -32,52 +32,79 @@ public class PeakAlignment {
         List<Peak> labelledPeaks = createPeakObjects(labelledTable);
         List<Peak> unlabelledPeaks = createPeakObjects(unlabelledTable);
 
-        Map<String, Set<Peak>> whohas = new HashMap<>();
-        List<Peak> alignedPeaks = new ArrayList<>();
-        Set<Integer> skipList = new HashSet<>();
+        Map<String, Set<Peak>> whohasTraining = new HashMap<>();
+        Map<String, Set<Peak>> whohasNoLabel = new HashMap<>();
+        List<Peak> alignedPeaksTraining = new ArrayList<>();
+        List<Peak> alignedPeaksNoLabel = new ArrayList<>();
 
+        Set<Integer> skipList = new HashSet<>();
         for (int i = 0; i < labelledPeaks.size(); i++) {
             if (skipList.contains(i)) continue;
 
             Peak peakA = labelledPeaks.get(i);
-            // LABELLED
             for (int j = i+1; j < labelledPeaks.size(); j++) {
                 Peak peakB = labelledPeaks.get(j);
                 double distanceTo = peakA.distanceTo(peakB);
                 if (distanceTo < threshold) {
                     System.out.printf("Found match between labelledPeak (%d, %f) and (%d, %f). Distance is = %f\n", peakA.getR(),
                             peakA.getT(), peakB.getR(), peakB.getT(), distanceTo);
-                    addPeakToMap(whohas, peakB.getMeasurementName(), peakA);
+                    addPeakToMap(whohasTraining, peakB.getMeasurementName(), peakA);
                     skipList.add(j);
                 }
             }
-            // UNLABELLED
-            // Assumes all labelled peaks will owns all unlabelled ?
-            for (int j = i + 1; j < unlabelledPeaks.size(); j++) {
+            addPeakToMap(whohasTraining, peakA.getMeasurementName(), peakA);
+            alignedPeaksTraining.add(peakA);
+            peakA.setUniqueId(alignedPeaksTraining.size());
+        }
+
+        skipList.clear();
+        for (int i = 0; i < unlabelledPeaks.size(); i++) {
+            if (skipList.contains(i)) continue;
+
+            Peak peakA = unlabelledPeaks.get(i);
+            for (int j = i+1; j < unlabelledPeaks.size(); j++) {
                 Peak peakB = unlabelledPeaks.get(j);
                 double distanceTo = peakA.distanceTo(peakB);
                 if (distanceTo < threshold) {
-                    System.out.printf("Found (UNLABELLED)match between (%d, %f) and (%d, %f). Distance is = %f\n", peakA.getR(),
-                            peakA.getT(), peakB.getR(), peakB.getT(), distanceTo);
-                    addPeakToMap(whohas, peakB.getMeasurementName(), peakA);
+                    addPeakToMap(whohasNoLabel, peakB.getMeasurementName(), peakA);
+                    skipList.add(j);
                 }
             }
-            addPeakToMap(whohas, peakA.getMeasurementName(), peakA);
-            alignedPeaks.add(peakA);
-            peakA.setUniqueId(alignedPeaks.size());
+            addPeakToMap(whohasNoLabel, peakA.getMeasurementName(), peakA);
+            alignedPeaksNoLabel.add(peakA);
+            for (int j = 0; j < labelledPeaks.size(); j++) {
+                Peak peakB = labelledPeaks.get(j);
+                double distanceTo = peakA.distanceTo(peakB);
+                if (distanceTo < threshold) {
+                    peakA.setUniqueId(peakB.getUniqueId());
+                    break;
+                }
+            }
+            if (peakA.getUniqueId() == 1) System.out.println("ERROR");
+
         }
 
+        //printDebugInformation(labelledPeaks, unlabelledPeaks, whohasTraining, whohasNoLabel, alignedPeaksTraining);
+
+        writeResultsToFile(whohasTraining, alignedPeaksTraining, "training");
+        writeResultsToFile2(whohasNoLabel, alignedPeaksNoLabel, "test");
+    }
+
+    private void printDebugInformation(List<Peak> labelledPeaks, List<Peak> unlabelledPeaks, Map<String, Set<Peak>> whohasTraining, Map<String, Set<Peak>> whohasTest, List<Peak> alignedPeaksTraining) {
         System.out.println("----");
         System.out.println("Aligned peaks:");
-        alignedPeaks.forEach(System.out::println);
-        System.out.printf("Before %d, After: %d\n", labelledPeaks.size()+unlabelledPeaks.size(), alignedPeaks.size());
-        whohas.forEach((key, value) -> {
+        alignedPeaksTraining.forEach(System.out::println);
+        System.out.printf("Before %d, After: %d\n", labelledPeaks.size()+unlabelledPeaks.size(), alignedPeaksTraining.size());
+        whohasTraining.forEach((key, value) -> {
             System.out.printf("Key '%s' owns: ", key);
             value.forEach(it -> System.out.printf("%d, ", it.getUniqueId()));
             System.out.println();
         });
-
-        writeResultsToFile(whohas, alignedPeaks);
+        whohasTest.forEach((key, value) -> {
+            System.out.printf("Key '%s' owns: ", key);
+            value.forEach(it -> System.out.printf("%d, ", it.getUniqueId()));
+            System.out.println();
+        });
     }
 
 
@@ -112,8 +139,8 @@ public class PeakAlignment {
         return peaks;
     }
 
-    private void writeResultsToFile(Map<String, Set<Peak>> whohas, List<Peak> alignedPeaks) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("training.arff"))) {
+    private void writeResultsToFile(Map<String, Set<Peak>> whohas, List<Peak> alignedPeaks, String filename) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename+".arff"))) {
             Map<String, Label> labelsMap = new HashMap<>();
 
             Label.readLabels(
@@ -141,9 +168,29 @@ public class PeakAlignment {
             throw new RuntimeException(e);
         }
 
-        List<List<Peak>> p = Collections.singletonList(alignedPeaks);
-        PeakAlignmentPlot peakAlignmentPlot = new PeakAlignmentPlot(p);
-        peakAlignmentPlot.setVisible(true);
+        //List<List<Peak>> p = Collections.singletonList(alignedPeaks);
+        //PeakAlignmentPlot peakAlignmentPlot = new PeakAlignmentPlot(p);
+        //peakAlignmentPlot.setVisible(true);
+    }
+
+    private void writeResultsToFile2(Map<String, Set<Peak>> whohas, List<Peak> alignedPeaks, String filename) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename+".arff"))) {
+            writeArffHeader(alignedPeaks, writer);
+            whohas.forEach((key, value) -> {
+                boolean[] hasPeaks = new boolean[alignedPeaks.size()];
+                value.forEach(it -> hasPeaks[it.getUniqueId() - 1] = true);
+
+                boolean first = true;
+                for (boolean hasPeak : hasPeaks) {
+                    if (!first) writer.printf(",");
+                    first = false;
+                    writer.printf("%d", hasPeak ? 1 : 0);
+                }
+                writer.println();
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void writeArffHeader(List<Peak> alignedPeaks, PrintWriter writer) {
