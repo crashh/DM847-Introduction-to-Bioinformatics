@@ -1,4 +1,4 @@
-package dk.sdu.dm847.exam.task1;
+package dk.sdu.dm847.exam.debug;
 
 import java.io.IOException;
 import java.nio.file.Files;

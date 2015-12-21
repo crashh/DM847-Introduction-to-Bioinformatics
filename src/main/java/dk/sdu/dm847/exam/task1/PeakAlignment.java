@@ -86,8 +86,8 @@ public class PeakAlignment {
             }
         });
 
-        writeResultsToFile(whoHasLabels, alignedPeaks, "training", true);
-        writeResultsToFile(whoHasNoLabels, alignedPeaks, "test", false);
+        writeResultsToFile(whoHasLabels, alignedPeaks, "peakAlignedLabelled", true);
+        writeResultsToFile(whoHasNoLabels, alignedPeaks, "peakAlignedUnlabelled", false);
     }
 
     private void printDebugInformation(List<Peak> labelledPeaks, List<Peak> unlabelledPeaks, Map<String, Set<Peak>> whohasTraining, Map<String, Set<Peak>> whohasTest, List<Peak> alignedPeaksTraining) {

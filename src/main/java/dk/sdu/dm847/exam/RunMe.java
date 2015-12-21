@@ -1,0 +1,48 @@
+package dk.sdu.dm847.exam;
+
+import dk.sdu.dm847.exam.task1.PeakAlignment;
+import dk.sdu.dm847.exam.task1.PreprocessRawDataFiles;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class RunMe {
+    static String workDir;
+    static String rawDataFolder = "candy_raw";
+
+    static String labelledData = "./candy_labels/output";
+    static String unlabelledData = "./candy_no_labels/output";
+
+    public static void main(String[] args) {
+        /*
+         * Preprocess data bu running it using PEAX.
+         * This will give us all the peaks found in the raw data files.
+         */
+        PreprocessRawDataFiles preProcess = new PreprocessRawDataFiles(rawDataFolder, "output");
+        preProcess.runPEAX(false);
+
+        /*
+         * Isolate peaks and give them a unique ID.
+         * Peaks may not always be positioned exactly identical, thus all peaks within a specific
+         * threshold should have the same unique ID.
+         */
+        List<File> labelledFiles = Arrays.stream(new File(labelledData).listFiles())
+                .filter(it -> it.getName().endsWith(".csv"))
+                .collect(Collectors.toList());
+
+        List<File> unlabelledFiles = Arrays.stream(new File(unlabelledData).listFiles())
+                .filter(it -> it.getName().endsWith(".csv"))
+                .collect(Collectors.toList());
+        PeakAlignment peakAlignment = new PeakAlignment(labelledFiles, unlabelledFiles, 0.4);
+        peakAlignment.runAlignment();
+
+        /*
+         * Trains a Random Forest using labelled data such that it can predict what type of halls
+         * is used, when used on non-labelled data.
+         */
+        //TODO.
+    }
+
+}
