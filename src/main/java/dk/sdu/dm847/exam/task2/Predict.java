@@ -1,8 +1,9 @@
-package dk.sdu.dm847.exam;
+package dk.sdu.dm847.exam.task2;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.logging.Logger;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
@@ -16,13 +17,25 @@ import weka.core.converters.CSVLoader;
 import weka.core.converters.CSVSaver;
 import weka.core.converters.Loader;
 
+/**
+ * Step 4 of the program.
+ * Tries to predict the unlabelled data, using the trained model. *
+ */
 public class Predict {
-    public static void main(String[] args) throws Exception {
+
+    private final Logger logger = Logger.getLogger(Predict.class.getName());
+    private final String fileName;
+
+    public Predict(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void predict() throws Exception {
         /*
 		 * First we load the test data from our ARFF file
 		 */
         ArffLoader testLoader = new ArffLoader();
-        testLoader.setSource(new File("test.arff"));
+        testLoader.setSource(new File(fileName));
         testLoader.setRetrieval(Loader.BATCH);
         Instances testDataSet = testLoader.getDataSet();
 
@@ -38,7 +51,7 @@ public class Predict {
 		 * Now we read in the serialized model from disk
 		 */
         Classifier classifier = (Classifier) SerializationHelper
-                .read("halls.model");
+                .read("halls_rf_trained.model");
 
 		/*
 		 * This part may be a little confusing. We load up the test data again
@@ -48,7 +61,7 @@ public class Predict {
 		 * to be the value of the classification
 		 */
         ArffLoader test1Loader = new ArffLoader();
-        test1Loader.setSource(new File("test.arff"));
+        test1Loader.setSource(new File(fileName));
         Instances test1DataSet = test1Loader.getDataSet();
         Attribute test1Attribute = test1DataSet.attribute(0);
         test1DataSet.setClass(test1Attribute);
@@ -71,10 +84,10 @@ public class Predict {
 		 * format suitable to submit to Kaggle.
 		 */
         CSVSaver predictedCsvSaver = new CSVSaver();
-        predictedCsvSaver.setFile(new File("predict.csv"));
+        predictedCsvSaver.setFile(new File("halls_prediction.csv"));
         predictedCsvSaver.setInstances(test1DataSet);
         predictedCsvSaver.writeBatch();
 
-        System.out.println("Prediciton saved to predict.csv");
+        logger.info("Prediciton saved to halls_prediction.csv");
     }
 }

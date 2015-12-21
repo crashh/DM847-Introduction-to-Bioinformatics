@@ -7,12 +7,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
- * The actual peak alignment happening, see PeakAligner.
+ * Step 2 of the program.
+ * The actual peak alignment happening.
  */
 public class PeakAlignment {
+
+    private final Logger logger = Logger.getLogger(PeakAlignment.class.getName());
     private final List<File> labelledPeaxFiles;
     private final List<File> unlabelldPeaxFiles;
     private final double threshold;
@@ -23,16 +28,23 @@ public class PeakAlignment {
         this.threshold = threshold;
     }
 
-    // First identify labelled peaks.
+    public void disableLogging() {
+        logger.setLevel(Level.OFF);
+    }
+
     public void runAlignment() {
+        logger.info("Starting peak alignment.");
         List<List<String>> labelledTable = loadAndPreProcess(labelledPeaxFiles);
         List<List<String>> unlabelledTable = loadAndPreProcess(unlabelldPeaxFiles);
 
         List<Peak> labelledPeaks = createPeakObjects(labelledTable);
         List<Peak> unlabelledPeaks = createPeakObjects(unlabelledTable);
         List<Peak> allPeaks = new ArrayList<>();
+        logger.info("Creating peak objects.");
         allPeaks.addAll(labelledPeaks);
         allPeaks.addAll(unlabelledPeaks);
+        logger.info("Created "+labelledPeaks.size()+" labelled peaks.");
+        logger.info("Created "+unlabelledPeaks.size()+" unlabelled peaks.");
 
         Map<String, Set<Peak>> whoHas = new HashMap<>();
         List<Peak> alignedPeaks = new ArrayList<>();
@@ -47,8 +59,8 @@ public class PeakAlignment {
                 Peak peakB = allPeaks.get(j);
                 double distanceTo = peakA.distanceTo(peakB);
                 if (distanceTo < threshold) {
-                    System.out.printf("Found match between labelledPeak (%f, %f) and (%f, %f). Distance is = %f\n", peakA.getR(),
-                            peakA.getT(), peakB.getR(), peakB.getT(), distanceTo);
+                    logger.info("Found match between labelledPeak ("+peakA.getR()+", "+peakA.getT()+") and ("+
+                            peakB.getR()+", "+peakB.getT()+"). Distance is = "+distanceTo);
                     addPeakToMap(whoHas, peakB.getMeasurementName(), peakA);
                     skipList.add(j);
                     peaks.add(peakB);
@@ -86,6 +98,7 @@ public class PeakAlignment {
             }
         });
 
+        logger.info("Peaks aligned, writing to peakAlignedLabelled.arff and peakAlignedUnlabelled.arff");
         writeResultsToFile(whoHasLabels, alignedPeaks, "peakAlignedLabelled", true);
         writeResultsToFile(whoHasNoLabels, alignedPeaks, "peakAlignedUnlabelled", false);
     }
@@ -135,7 +148,6 @@ public class PeakAlignment {
             int indexR = Integer.valueOf(it.get(6));
             return new Peak(measurementName, peakName, t, r, signal, indexT, indexR);
         }).collect(Collectors.toList());
-        peaks.forEach(System.out::println);
         return peaks;
     }
 

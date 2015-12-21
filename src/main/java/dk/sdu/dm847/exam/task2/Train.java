@@ -1,5 +1,6 @@
 package dk.sdu.dm847.exam.task2;
 
+import dk.sdu.dm847.exam.task1.PreprocessData;
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
@@ -12,26 +13,34 @@ import weka.core.converters.ArffLoader;
 import weka.core.converters.Loader;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
+ * Step 3 of the program:
  * Loads the generated data from task 1 and trains a RF classifier using the WEKA framework.
  * source on HOW-to: https://github.com/birchsport/titanic
  *
  * Using the generated confusion matrix, mean accuracy, sensitivity and specificity are calculated.
  * Source: https://en.wikipedia.org/wiki/Confusion_matrix
  *
- * The five most descriminating features cannot be extracted in WEKA. Waiting for help from Jan.
+ * The five most descriminating features cannot be extracted in WEKA. Waiting on help from Jan.
  */
 public class Train {
 
-    public static final int NUM_FOLDS = 5;
+    private final Logger logger = Logger.getLogger(Train.class.getName());
+    private final int NUM_FOLDS;
+    private final String fileName;
 
-    public static void main(String[] args) throws Exception {
+    public Train(int numFolds, String fileName) {
+        NUM_FOLDS = numFolds;
+        this.fileName = fileName;
+    }
+
+    public void train() throws Exception {
         ArffLoader trainLoader = new ArffLoader();
-        trainLoader.setSource(new File("training.arff"));
+
+        trainLoader.setSource(new File(fileName));
         trainLoader.setRetrieval(Loader.BATCH);
         Instances trainDataSet = trainLoader.getDataSet();
 
@@ -44,11 +53,13 @@ public class Train {
 
         RandomForest classifier = new RandomForest();
         classifier.setNumTrees(500);
-        classifier.setDebug(true);
+        classifier.setDebug(false);
+        classifier.setSeed(1234);
 
         classifier.buildClassifier(trainDataSet);
-        SerializationHelper.write("halls.model", classifier);
-        System.out.println("Saved trained model to halls.model");
+        SerializationHelper.write("halls_rf_trained.model", classifier);
+        logger.info("Saved trained model to halls_rf_trained.model");
+
 
 /*
         Evaluation evalAll = new Evaluation(randomData);
