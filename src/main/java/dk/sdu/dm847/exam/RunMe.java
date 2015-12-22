@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RunMe {
-    static String workDir = Paths.get("").toAbsolutePath().toString();;
+    static String workDir = Paths.get("").toAbsolutePath().toString();
     static String rawDataFolder = "candy_raw";
 
     static String labelledData = "./candy_labels/output";
@@ -24,7 +24,7 @@ public class RunMe {
          * This will give us all the peaks found in the raw data files.
          */
         PreprocessData preProcess = new PreprocessData(rawDataFolder, "output");
-        preProcess.disableLogging();
+        //preProcess.disableLogging();
         preProcess.runPEAX(false);
 
         /*

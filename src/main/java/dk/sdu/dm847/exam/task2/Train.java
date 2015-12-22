@@ -1,14 +1,11 @@
 package dk.sdu.dm847.exam.task2;
 
-import dk.sdu.dm847.exam.task1.PreprocessData;
-import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Attribute;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
-import weka.core.Utils;
 import weka.core.converters.ArffLoader;
 import weka.core.converters.Loader;
 
@@ -41,7 +38,6 @@ public class Train {
 
     public void train() throws Exception {
         ArffLoader trainLoader = new ArffLoader();
-
         trainLoader.setSource(new File(fileName));
         trainLoader.setRetrieval(Loader.BATCH);
         Instances trainDataSet = trainLoader.getDataSet();
@@ -69,7 +65,7 @@ public class Train {
             Evaluation eval = new Evaluation(randomData);
             Instances train = randomData.trainCV(NUM_FOLDS, i);
             Instances test = randomData.testCV(NUM_FOLDS, i);
-            Classifier copy = AbstractClassifier.makeCopy(classifier);
+            Classifier copy = Classifier.makeCopy(classifier);
             copy.buildClassifier(train);
             eval.evaluateModel(copy, test);
             evalAll.evaluateModel(copy, test);
