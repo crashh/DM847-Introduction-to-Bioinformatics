@@ -19,7 +19,11 @@ import weka.core.converters.Loader;
 
 /**
  * Step 4 of the program.
- * Tries to predict the unlabelled data, using the trained model. *
+ * Tries to predict the unlabelled data, using the trained model.
+ * This should probably be run on the reduce data-set created with the 5 most
+ * discriminating features, which is still missing to be done.
+ *
+ * Currently it will only have a hit-rate of 80% (bast-cases, see Train for more information).
  */
 public class Predict {
 

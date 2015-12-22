@@ -156,7 +156,7 @@ public class PeakAlignment {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename + ".arff"))) {
             Map<String, Label> labelsMap = new HashMap<>();
             if (hasLabels) {
-                Label.readLabels(new File("candy_labels/labels.csv")).forEach(it -> labelsMap.put(it.getOrigin(), it));
+                Label.readLabels(new File("labels.csv")).forEach(it -> labelsMap.put(it.getOrigin(), it));
             }
 
             writeArffHeader(alignedPeaks, writer, hasLabels);
@@ -176,6 +176,8 @@ public class PeakAlignment {
                     first = false;
                     writer.printf("%d", hasPeak ? 1 : 0);
                 }
+                writer.print("," + key);
+
                 writer.println();
             });
         } catch (IOException e) {
@@ -194,6 +196,7 @@ public class PeakAlignment {
         for (int i = 0; i < alignedPeaks.size(); i++) {
             writer.printf("@attribute p%d {0,1}\n", i + 1);
         }
+        writer.printf("@attribute sourcefile string\n");
         writer.println();
         writer.println("@data");
         writer.println();

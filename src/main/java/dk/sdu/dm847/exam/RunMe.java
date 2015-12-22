@@ -12,20 +12,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RunMe {
-    static String workDir = Paths.get("").toAbsolutePath().toString();;
-    static String rawDataFolder = "candy_raw";
+    static String workDir = Paths.get("").toAbsolutePath().toString();
 
     static String labelledData = "./candy_labels/output";
     static String unlabelledData = "./candy_no_labels/output";
 
     public static void main(String[] args) {
         /*
-         * Preprocess data bu running it using PEAX.
+         * Pre-process data by running it using PEAX.
          * This will give us all the peaks found in the raw data files.
          */
-        PreprocessData preProcess = new PreprocessData(rawDataFolder, "output");
-        preProcess.disableLogging();
-        preProcess.runPEAX(false);
+        PreprocessData preProcessTrain = new PreprocessData("candy_labels", "output");
+        preProcessTrain.disableLogging();
+        preProcessTrain.runPEAX(false);
+        PreprocessData preProcessTest = new PreprocessData("candy_no_labels", "output");
+        preProcessTest.disableLogging();
+        preProcessTest.runPEAX(false);
 
         /*
          * Isolate peaks and give them a unique ID.
@@ -39,7 +41,7 @@ public class RunMe {
         List<File> unlabelledFiles = Arrays.stream(new File(unlabelledData).listFiles())
                 .filter(it -> it.getName().endsWith(".csv"))
                 .collect(Collectors.toList());
-        // The 0.4 is the threshold for distance before a peak is considered seperate:
+        // The 0.4 is the threshold for distance before a peak is considered separate:
         PeakAlignment peakAlignment = new PeakAlignment(labelledFiles, unlabelledFiles, 0.42);
         peakAlignment.disableLogging();
         peakAlignment.runAlignment();
@@ -56,6 +58,10 @@ public class RunMe {
             e.printStackTrace();
         }
 
+        /**
+         * Predicts which halls is used on the unlabelled data set, using the trained model.
+         * Outputs file halls_prediction.csv
+         */
         Predict predictUnlabelledData = new Predict("peakAlignedUnlabelled.arff");
         try {
             predictUnlabelledData.predict();

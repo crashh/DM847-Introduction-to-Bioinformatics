@@ -26,7 +26,8 @@ import java.util.logging.Logger;
  * Using the generated confusion matrix, mean accuracy, sensitivity and specificity are calculated.
  * Source: https://en.wikipedia.org/wiki/Confusion_matrix
  *
- * The five most descriminating features cannot be extracted in WEKA. Waiting on help from Jan.
+ * The five most descriminating features cannot be extracted in WEKA. Instead this is done using WEKA
+ * GUI tool.
  */
 public class Train {
 
@@ -48,11 +49,14 @@ public class Train {
 
         Attribute trainAttribute = trainDataSet.attribute(0);
         trainDataSet.setClass(trainAttribute);
+        trainDataSet.deleteStringAttributes();
 
-        Random random = new Random();
+        // Generate random test-data to see how well the rf guesses:
+        Random random = new Random(6);
         Instances randomData = new Instances(trainDataSet);
         randomData.randomize(random);
 
+        // Create rf, using seed 1234 for consistent results:
         RandomForest classifier = new RandomForest();
         classifier.setNumTrees(300);
         classifier.setDebug(false);
@@ -78,6 +82,7 @@ public class Train {
                     (i + 1) + "/" + NUM_FOLDS + " ===\n"));
         }
 
+        // Calculate sensitivity, specificity, and accuracy:
         double sensitivity = 0;
         double specificity = 0;
         double accuracy = 0;
