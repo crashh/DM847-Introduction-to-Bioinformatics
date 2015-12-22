@@ -25,6 +25,7 @@ public class FeatureSelection {
         Instances data = trainLoader.getDataSet();
         Attribute trainAttribute = data.attribute(0);
         data.setClass(trainAttribute);
+        data.deleteStringAttributes();
 
         ASEvaluation evaluator;
 
