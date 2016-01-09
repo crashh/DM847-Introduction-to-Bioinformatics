@@ -192,7 +192,7 @@ public class PeakAlignment {
     private void writeArffHeader(List<Peak> alignedPeaks, PrintWriter writer, boolean hasLabel) {
         writer.println("@relation training");
         writer.println();
-        writer.println("@attribute t {H,C}");
+        writer.println("@attribute t {Halls,Citrus}");
         for (int i = 0; i < alignedPeaks.size(); i++) {
             writer.printf("@attribute p%d {0,1}\n", i + 1);
         }
