@@ -68,6 +68,12 @@ public class RunMe {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        //Takes the Prediction and output final.txt in correct format.
+        CsvParser pars = new CsvParser("halls_prediction.csv");
+        CsvParser.parseAndStripComments();
+        CsvParser.makeFinalTxt();
+        
     }
 
 }
