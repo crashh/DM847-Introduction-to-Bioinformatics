@@ -51,7 +51,7 @@ __Work status:__
   13. [✓] Use code from part one to process and align training and test data
   14. [-] Apply classifier learned in part 1. 
       - __TODO Should we run this using the reduced test data set from (12)?__
-  15. [-] Hand in the predicted test set.
+  15. [✓] Hand in the predicted test set.
       - __TODO Right now we only produce a CSV file, we should produce a test
         file, see the example file on the website. This should be
         straightforward.__
@@ -63,6 +63,7 @@ project:
 
   - Java 8 (JRE and JDK)
   - Maven
+  - Linux only
 
 Additionally Maven pulls in the following dependencies:
 
@@ -133,6 +134,7 @@ mvn exec:java -Dexec.mainClass="dk.sdu.dm847.exam.RunMe" -Dexec.classpathScope=r
 ```
 
 ## Results
+The final_results.txt contains the predictions for the class labels. This is in the correct format that is required by: http://teaching.compbio.sdu.dk/ . The predictions is off by 2 or 3, but this may be because of overfitting. It uses all the peaks it finds, but only the top 5 are required. This could not be done without using the Weka GUI.
 
 ### Example Density Plots
 
