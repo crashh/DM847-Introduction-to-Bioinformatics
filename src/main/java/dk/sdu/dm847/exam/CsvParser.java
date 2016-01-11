@@ -1,3 +1,4 @@
+package dk.sdu.dm847.exam;
 
 import java.io.*;
 import java.net.URI;
@@ -54,7 +55,7 @@ public class CsvParser {
     }
 
     public void makeFinalTxt(){
-        File file = new File("final");
+        File file = new File("final_result.txt");
         int size = table.size();
         int last = table.get(1).size()-1;
         try (PrintWriter printWriter = new PrintWriter(new FileWriter(file))) {
@@ -63,7 +64,7 @@ public class CsvParser {
 
             for(int i = 1; i<size; i++){
                 printWriter.print(table.get(i).get(last)+"\t");
-                printWriter.print(table.get(i).get(0));
+                printWriter.print(table.get(i).get(0).toLowerCase());
                 printWriter.write("\n");
             }
         } catch (IOException e) {
