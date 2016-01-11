@@ -1,5 +1,7 @@
 # Manual for DM847 Exam Project
 
+Group members: latho12, dathr12, hschu12, anbus12, pegot12
+
 <!-- MarkdownTOC -->
 
 - [Status of Implementation](#status-of-implementation)
@@ -49,12 +51,8 @@ __Work status:__
         with producing a nice tree (J48), as it always seem to split on only a
         single feature (p37).__
   13. [✓] Use code from part one to process and align training and test data
-  14. [-] Apply classifier learned in part 1. 
-      - __TODO Should we run this using the reduced test data set from (12)?__
+  14. [✓] Apply classifier learned in part 1. 
   15. [✓] Hand in the predicted test set.
-      - __TODO Right now we only produce a CSV file, we should produce a test
-        file, see the example file on the website. This should be
-        straightforward.__
 
 ## Requirements
 
@@ -63,7 +61,7 @@ project:
 
   - Java 8 (JRE and JDK)
   - Maven
-  - Linux only
+  - Linux Enviornment due to PEAX and WEKA both requireing this.
 
 Additionally Maven pulls in the following dependencies:
 
@@ -134,7 +132,7 @@ mvn exec:java -Dexec.mainClass="dk.sdu.dm847.exam.RunMe" -Dexec.classpathScope=r
 ```
 
 ## Results
-The final_results.txt contains the predictions for the class labels. This is in the correct format that is required by: http://teaching.compbio.sdu.dk/ . The predictions is off by 2 or 3, but this may be because of overfitting. It uses all the peaks it finds, but only the top 5 are required. This could not be done without using the Weka GUI.
+The final_results.txt contains the predictions for the class labels. This is in the correct format that is required by: http://teaching.compbio.sdu.dk/ . The predictions is off by 2 or 3, but this may be because of overfitting. It uses all the peaks it finds, but only the top 5 are required. This could not be solved without using the Weka GUI, as the coding API does not allow us to extract these.
 
 ### Example Density Plots
 
@@ -179,6 +177,9 @@ Mean specificity: 1.0
 Mean accuracy: 0.9333333333333332
 ```
 
+Note that the cross-validation is tested on randomly generated data, based on the initial data (WEKA randomise method). Hence the results here varies depending on the generated data.
+If it was run on the initial data, the accuracy would be 100%.
+
 ### Results from Random Forest Prediction
 
 ```text
@@ -198,8 +199,8 @@ C,1,1,1,1,0,1,1,1,1,1,1,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,
 
 ### Results from Attribute Selection
 
-__TODO__
+This could not be done in WEKA, see start of document.
 
 ### Results from Decision Tree Trained on Reduced Data Set
 
-__TODO__
+See above.
